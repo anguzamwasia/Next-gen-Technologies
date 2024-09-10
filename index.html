@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WaterMonitor - Tracking Water Usage</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>WaterMonitor</h1>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#dashboard">Dashboard</a></li>
+                    <li><a href="#map">Project Locations</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h2>Efficient Water Monitoring and Management</h2>
+            <p>Track your water usage, monitor leakages, and keep your environment clean with real-time data.</p>
+            <a href="#dashboard" class="cta-button">Explore Dashboard</a>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="dashboard">
+        <div class="container">
+            <h2>Interactive Dashboard</h2>
+            <div class="dashboard-content">
+                <canvas id="individualWaterUsageChart"></canvas>
+            </div>
+            <div class="dashboard-description">
+                <p>Monitor your daily water usage trends, compare them with the average household, and find ways to reduce water waste.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Locations Section -->
+    <section id="map" class="map">
+        <div class="container">
+            <h2>Project Locations</h2>
+            <div id="mapid"></div>
+        </div>
+    </section>
+    
+    <!-- About Us Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About Us</h2>
+            <p>At WaterMonitor, we aim to empower individuals and communities by providing real-time tools to monitor and optimize water consumption, prevent leakage, and maintain a clean environment.</p>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <footer id="contact">
+        <div class="container">
+            <p>&copy; 2024 WaterMonitor. All rights reserved.</p>
+            <p>Contact us at <a href="mailto:info@watermonitor.com">info@watermonitor.com</a></p>
+            <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Leaflet Map Initialization
+        var map = L.map('mapid').setView([51.505, -0.09], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Example marker (Add actual project locations)
+        L.marker([51.505, -0.09]).addTo(map)
+            .bindPopup('Project Location 1')
+            .openPopup();
+
+        // Chart.js Initialization
+        var ctx = document.getElementById('individualWaterUsageChart').getContext('2d');
+        var individualWaterUsageChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                datasets: [
+                    {
+                        label: 'Your Water Usage (L)',
+                        data: [150, 180, 170, 160, 200, 220, 210],
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        fill: true
+                    },
+                    {
+                        label: 'Average Household Usage (L)',
+                        data: [120, 130, 140, 150, 160, 170, 180],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    datalabels: {
+                        display: true,
+                        color: 'black',
+                        formatter: (value) => `${value}L`
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Water Usage (Liters)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Days of the Week'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
